@@ -1,7 +1,10 @@
 {
   "name": "node-login",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "Start/app.js",
+  "scripts": {
+    "start":"node Start/app.js"
+  },
   "dependencies": {
     "basic-auth": "^1.0.4",
     "bcryptjs": "^2.3.0",
