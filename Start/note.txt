@@ -1,0 +1,21 @@
+(2500, 'Internal Server Error !')
+errors(2020, 'Invalid Token !')
+
+authencation
+(2240, 'Invalid Request !')
+(2677, 'User Not Found !')
+(2337, 'Invalid Credentials !')
+
+(2500, 'Internal Server Error !')
+
+changepassword
+
+(2156,'Invalid Old Password !')
+(2677, 'User Not Found !')
+
+register
+(2409, 'User Already Registered !')
+
+reset Password
+(2031,'Time Out ! Try again')
+
