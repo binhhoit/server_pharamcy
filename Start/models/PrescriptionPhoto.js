@@ -5,7 +5,9 @@ const prescriptionSchema = mongoose.Schema({
 	id: String,
 	email: String,
 	addressReceive: String,
-	number_buy: String,
+	phone: String,
+	name: String,
+	numberBuy: String,
     status:String,
     photo:String,	
 

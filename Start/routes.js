@@ -2,6 +2,10 @@
 //id = email 
 const auth = require('basic-auth');
 const jwt = require('jsonwebtoken');
+const multer = require('multer')
+const fileType = require('file-type')
+const fs = require('fs')
+
 const responseData = require('./models/Responsive');
 const errors = require('./models/Errors');
 
@@ -21,7 +25,7 @@ const prescriptionPhoto_post = require('./functions/prescriptionPhoto_post');
 const prescription_get = require('./functions/prescription_get');
 const prescription_get_confirm = require('./functions/prescription_get_confirm');
 const prescription_put_confirm = require('./functions/prescription_put_confirm');
-
+const photo = require('./functions/uploadPhoto');
 
 const pay = require('./functions/Pay');
 
@@ -285,13 +289,43 @@ module.exports = router => {
 			var prescription = req.body;
 			prescriptionPhoto_post.prescriptionPhotoPost(prescription)
 				.then(result => {
-					// console.log(result.status + "   " + result.message);
-					res.json({ status: result.status, message: result.message });
-				})
+					res.json(responseData(result, null, null));
+				});
 		} else {
 			res.json(responseData(null, true, errors(2020, 'Invalid Token !')));
 		}
 	});
+
+	router.post('/images/upload/:id', (req, res) => {
+		if (checkToken(req)) {
+			photo.upload(req, res, function (err) {
+				if (err) {
+					res.json(responseData(null, true, errors(2036, err.message)));
+				} else {
+					console.log(req.file.filename);
+					let path = `/api/images/${req.file.filename}`;
+					var data = { message: 'Image Uploaded Successfully !', path: path };
+					res.json(responseData(data, null, null));
+				}
+
+			});
+		} else {
+			res.json(responseData(null, true, errors(2020, 'Invalid Token !')));
+		}
+
+	})
+
+	router.get('/images/:imagename', (req, res) => {
+		console.log("-->run get image")
+		let imagename = req.params.imagename
+		let imagepath = __dirname + "/images/" + imagename
+		let image = fs.readFileSync(imagepath)
+		let mime = fileType(image).mime
+
+		res.writeHead(200, { 'Content-Type': mime })
+		res.end(image, 'binary')
+	})
+
 	//------------------------------1Pay (thanh toán trực tuyến)----------------------------------
 
 	router.post('/1pay/:id', (req, res) => {

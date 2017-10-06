@@ -4,7 +4,7 @@ const prescription = require('../models/PrescriptionPhoto');
 const errors = require('../models/Errors');
 
 exports.prescriptionPhotoPost = (body) =>
-    //
+
     new Promise((resolve, reject) => {
         console.log("Toa Thuốc : ");
         var prescriptions = new prescription(body)
@@ -21,7 +21,3 @@ exports.prescriptionPhotoPost = (body) =>
         })
 
     });
-        //
-
-
-
